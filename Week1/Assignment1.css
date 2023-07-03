@@ -1,4 +1,4 @@
-/* 螢幕大於1250px 電腦版設計 */
+/* 1200 < screen */
 .UpperFrame {
 	display: flex;
 	font-size: 20px;
@@ -12,6 +12,9 @@
     display: flex;
 	flex: auto;
 	justify-content: flex-end;
+}
+.mobile-menu{
+	display: none;
 }
 .item{
 	text-align: center;
@@ -54,7 +57,6 @@
 .promotionText{
 	margin-left: 5px;
 }
-
 .UpperImg{
 	width: 80px;
 	height: 50px;
@@ -63,7 +65,7 @@
 }
 .DownMain{
 	display: flex;
-	/* margin-top: 5px; */
+	flex-wrap: wrap;
 	justify-content: center;
 	width: 1200px;
 }
@@ -85,9 +87,55 @@
 	height: 70%;
 	object-position: left top;
 }
+.titlePlace {
+	display: flex;
+	width: 100%;
+	flex: auto;
+	align-items: center;
+	justify-content: center;
+}
 .titleText {
 	text-align: center;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 14px;
+}
+
+/* 600 < screen <= 1200 */
+@media (max-width: 1200px) {
+    .UpMain{
+        flex-wrap: wrap;
+		width: 90%;
+    }
+	.DownMain{
+		width: 90%;
+	}
+    .promotion{
+        width: calc(50% - 20px);
+    }
+	#Promotion3{
+		width: 100%;
+	}
+	.title{
+		width: calc(25% - 20px);
+		height: 200px;
+	}
+}
+
+/* screen <= 600 */
+@media (max-width: 600px) {
+	.desktop-menu{
+		display: none;
+	}
+	.mobile-menu{
+		display: flex;
+		flex: auto;
+		justify-content: flex-end;
+	}
+	.promotion{
+        width: 100%;
+    }
+	.title{
+		width: 100%;
+		height: 400px;
+	}
 }
