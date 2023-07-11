@@ -51,7 +51,7 @@ function calculateSumOfBonus(data){
 
 		// Check salary
 		// integer type, add to sum directory
-		if(typeof(EmployeeList[i].salary) == "number" ) {
+		if(typeof(EmployeeList[i].salary) == "number") {
 			EmployeeBonus += EffSalary * EmployeeList[i].salary;
 		}
 		// string type,
@@ -160,7 +160,7 @@ function getNumber(index){
 		console.log(index / 2 * 3);
 	}
 	else {
-		console.log((index + 1)/ 2 * 3 + 1);
+		console.log((index + 1) / 2 * 3 + 1);
 	}
 }
 
