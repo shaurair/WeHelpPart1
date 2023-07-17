@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale = 1.0" />
+		<meta charset="utf-8" />
+		<title>task3</title>
+		<link rel="stylesheet" type="text/css" href="task3.css"/>
+	</head>
+	<body>
+		<div class="UpperFrame">
+			<div class="headline">My Website</div>
+			<div class="desktop-menu">
+				<div class="item">Item 1</div>
+				<div class="item">Item 2</div>
+				<div class="item">Item 3</div>
+				<div class="item">Item 4</div>
+			</div>
+			<div class="mobile-menu">
+				<img src="../Week1/menu_icon.png" width="30" height="30" />
+			</div>
+		</div>
+		<div class="welcome">
+			<div class="welcomeText">Welcome to MyHome</div>
+		</div>
+		<div class="main">
+			<div id = "PromotionPart" class="UpMain"></div>
+			<div id = "TitlePart" class="DownMain"></div>
+		</div>
+		<script>
+			// get data from internet
+			fetch("https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment.json").then(function(response){
+				return response.json();
+			}).then(function(data){
+				let TotalPromoNumber = 3;
+				let TotalTitleNumber = 12;
+				let AttraList = data["result"]["results"];
+
+				for(Attr in AttraList) {
+					// Prommotion part
+					if(Attr < TotalPromoNumber) {
+						let PromotionNo = Number(Attr) + 1
+								
+						// create Promotion blocks
+						var newDiv = document.createElement('div');
+						newDiv.className = 'promotion';
+						newDiv.id = "Promotion" + PromotionNo
+
+						var container = document.getElementById("PromotionPart");
+						container.appendChild(newDiv);
+
+						// set attraction picture
+						var newImg = document.createElement('img');
+						newImg.src = "https://"+AttraList[Attr].file.split("https://")[1];
+						newImg.className = 'UpperImg';
+
+						// set attraction name
+						newDiv = document.createElement('div');
+						newDiv.className = 'promotionText';
+						newDiv.textContent = AttraList[Attr].stitle;
+
+						// add to Promotion block
+						container = document.getElementById("Promotion" + PromotionNo);
+						container.appendChild(newImg);
+						container.appendChild(newDiv);
+					}
+					// Title part
+					else if(Attr < (TotalPromoNumber + TotalTitleNumber)){
+						let titleNo = Number(Attr) + 1 - TotalPromoNumber;
+
+						// create Title blocks
+						newDiv = document.createElement('div');
+						newDiv.className = 'title';
+						newDiv.id = "Title" + titleNo
+
+						container = document.getElementById("TitlePart");
+						container.appendChild(newDiv);
+
+						// set attraction picture
+						newImg = document.createElement('img');
+						newImg.src = "https://"+AttraList[Attr].file.split("https://")[1];
+						newImg.className = 'DownImg';
+
+						// set attraction img, name place
+						newDiv = document.createElement('div');
+						newDiv.className = 'titlePlace';
+						newDiv.id = "TitlePlace" + titleNo
+
+						// add to Title block
+						container = document.getElementById("Title" + titleNo);
+						container.appendChild(newImg);
+						container.appendChild(newDiv);
+
+						// add attraction name to name place
+						newDiv = document.createElement('div');
+						newDiv.className = 'titleText';
+						newDiv.textContent = AttraList[Attr].stitle;
+
+						container = document.getElementById("TitlePlace" + titleNo);
+						container.appendChild(newDiv);
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
