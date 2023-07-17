@@ -34,22 +34,23 @@
 				let TotalPromoNumber = 3;
 				let TotalTitleNumber = 12;
 				let AttraList = data["result"]["results"];
+				let PromotionNo, titleNo, newDiv, newImg, container;
 
 				for(Attr in AttraList) {
 					// Prommotion part
 					if(Attr < TotalPromoNumber) {
-						let PromotionNo = Number(Attr) + 1
+						PromotionNo = Number(Attr) + 1;
 								
 						// create Promotion blocks
-						var newDiv = document.createElement('div');
+						newDiv = document.createElement('div');
 						newDiv.className = 'promotion';
-						newDiv.id = "Promotion" + PromotionNo
+						newDiv.id = "Promotion" + PromotionNo;
 
-						var container = document.getElementById("PromotionPart");
+						container = document.getElementById("PromotionPart");
 						container.appendChild(newDiv);
 
 						// set attraction picture
-						var newImg = document.createElement('img');
+						newImg = document.createElement('img');
 						newImg.src = "https://"+AttraList[Attr].file.split("https://")[1];
 						newImg.className = 'UpperImg';
 
@@ -65,12 +66,12 @@
 					}
 					// Title part
 					else if(Attr < (TotalPromoNumber + TotalTitleNumber)){
-						let titleNo = Number(Attr) + 1 - TotalPromoNumber;
+						titleNo = Number(Attr) + 1 - TotalPromoNumber;
 
 						// create Title blocks
 						newDiv = document.createElement('div');
 						newDiv.className = 'title';
-						newDiv.id = "Title" + titleNo
+						newDiv.id = "Title" + titleNo;
 
 						container = document.getElementById("TitlePart");
 						container.appendChild(newDiv);
@@ -83,7 +84,7 @@
 						// set attraction img, name place
 						newDiv = document.createElement('div');
 						newDiv.className = 'titlePlace';
-						newDiv.id = "TitlePlace" + titleNo
+						newDiv.id = "TitlePlace" + titleNo;
 
 						// add to Title block
 						container = document.getElementById("Title" + titleNo);
