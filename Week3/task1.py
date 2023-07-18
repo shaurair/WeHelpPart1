@@ -2,9 +2,11 @@
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
-# get data from internet
 import urllib.request as request
 import json
+import csv
+
+# get data from internet
 src = "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment.json"
 with request.urlopen(src) as response:
 	data = json.load(response)
@@ -12,7 +14,7 @@ with request.urlopen(src) as response:
 # analysis data and write to csv file
 AttraList = data["result"]["results"]
 MRTSet = {}
-import csv
+
 with open("attraction.csv", mode = "w", newline = "") as file:
 	writer = csv.writer(file)
 
