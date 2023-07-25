@@ -14,12 +14,17 @@ html,body {
 .HeadInfo {
 	text-align: center;
 }
-.LogInfo {
+.Info {
 	text-align: center;
 }
-.item {
+.Item {
 	display: inline-block;
 	width: 100px;
+	height: 35px;
+}
+.LongWordItem {
+	display: inline-block;
+	width: 150px;
 	height: 35px;
 }
 .Msg {

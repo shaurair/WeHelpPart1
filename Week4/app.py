@@ -46,6 +46,11 @@ def member():
 @app.route("/error")
 def error():
 	ErrMsg = request.args.get("message","")
-	return render_template("error.html", PageTitle = "Login failed.",Msg = ErrMsg)
+	return render_template("error.html", Msg = ErrMsg)
+
+@app.route("/square")
+def square():
+	Number = int(float(request.args.get("Number","")))
+	return render_template("square.html", Msg = (Number ** 2))
 
 app.run(port = 3000)

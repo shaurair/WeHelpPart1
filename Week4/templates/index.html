@@ -11,11 +11,17 @@
 			Please input username and password
 		</div>
 		<h3 class = "HeadInfo">Login</h3>
-		<form class="LogInfo" id = "LogForm" action = "/signin" method = "POST">
-			<span class = "item">Username</span><input type = "text" name = "Username"/><br/>
-			<span class = "item">Password</span><input type = "password" name = "Password"/><br/>
-			<span class = "item">Agreement</span><input type="checkbox" id = "IsAgree"><br/>
+		<form class="Info" id = "LogForm" action = "/signin" method = "POST">
+			<span class = "Item">Username</span><input type = "text" name = "Username"/><br/>
+			<span class = "Item">Password</span><input type = "password" name = "Password"/><br/>
+			<span class = "Item">Agreement</span><input type="checkbox" id = "IsAgree"><br/>
 			<button type = "submit" onclick = "CheckIsAgree(event);">Login</button>
+		</form>
+		<hr/>
+		<h3 class = "HeadInfo">Square of positive number</h3>
+		<form class="Info" id = "CalForm" action = "/square">
+			<span class = "LongWordItem">Positive Number</span><input type = "text" name = "Number" id = "Number"/><br/>
+			<button type = "submit" onclick = "CheckIsPosInt(event);">Calculate</button>
 		</form>
 		<script>
 			function CheckIsAgree(event) {
@@ -23,6 +29,14 @@
 				if(IsAgree == false) {
 					event.preventDefault();
 					alert("Please check the checkbox first");
+				}
+			}
+			function CheckIsPosInt(event) {
+				let value = Number(document.getElementById("Number").value);
+
+				if(Number.isInteger(value) == false || value <= 0) {
+					event.preventDefault();
+					alert("Please enter a positive number");
 				}
 			}
 		</script>
