@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale = 1.0" charset="utf-8"/>
+		<title>Home Page</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='general.css') }}">
+	</head>
+	<body>
+		<div class = "HeadTitle">
+			Welcome!<br/>
+			Please input username and password
+		</div>
+		<h3 class = "HeadInfo">Login</h3>
+		<form class="LogInfo" id = "LogForm" action = "/signin" method = "POST">
+			<span class = "item">Username</span><input type = "text" name = "Username"/><br/>
+			<span class = "item">Password</span><input type = "password" name = "Password"/><br/>
+			<span class = "item">Agreement</span><input type="checkbox" id = "IsAgree"><br/>
+			<button type = "submit" onclick = "CheckIsAgree(event);">Login</button>
+		</form>
+		<script>
+			function CheckIsAgree(event) {
+				let IsAgree = document.getElementById("IsAgree").checked;
+				if(IsAgree == false) {
+					event.preventDefault();
+					alert("Please check the checkbox first");
+				}
+			}
+		</script>
+	</body>
+</html>
