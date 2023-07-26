@@ -19,8 +19,8 @@
 		</form>
 		<hr/>
 		<h3 class = "HeadInfo">Square of positive number</h3>
-		<form class="Info" id = "CalForm" action = "/square">
-			<span class = "LongWordItem">Positive Number</span><input type = "text" name = "Number" id = "Number"/><br/>
+		<form class="Info" id = "CalForm" method = "POST">
+			<span class = "LongWordItem">Positive Number</span><input type = "text" id = "Number"/><br/>
 			<button type = "submit" onclick = "CheckIsPosInt(event);">Calculate</button>
 		</form>
 		<script>
@@ -37,6 +37,9 @@
 				if(Number.isInteger(value) == false || value <= 0) {
 					event.preventDefault();
 					alert("Please enter a positive number");
+				}
+				else {
+					document.getElementById("CalForm").action = "/square/" + parseInt(value).toString();
 				}
 			}
 		</script>

@@ -20,9 +20,6 @@ def signin():
 		session["SIGNED-IN"] = True
 		return redirect("/member")
 	else:
-		# Clear user status
-		session["SIGNED-IN"] = False
-
 		# Check error type
 		if Username == "" or Password == "":
 			return redirect("/error?message=Please enter username and password")
@@ -31,15 +28,14 @@ def signin():
 
 @app.route("/signout")
 def signout():
-	session["SIGNED-IN"] = False
+	del session["SIGNED-IN"]
 	return redirect("/")
 
 @app.route("/member")
 def member():
 	# Check user status
 	if "SIGNED-IN" in session:
-		if session["SIGNED-IN"]:
-			return render_template("member.html")
+		return render_template("member.html")
 	
 	return redirect("/")
 
@@ -48,9 +44,8 @@ def error():
 	ErrMsg = request.args.get("message","")
 	return render_template("error.html", Msg = ErrMsg)
 
-@app.route("/square")
-def square():
-	Number = int(float(request.args.get("Number","")))
+@app.route("/square/<int:Number>", methods = ["POST"])
+def square(Number):
 	return render_template("square.html", Msg = (Number ** 2))
 
 app.run(port = 3000)
