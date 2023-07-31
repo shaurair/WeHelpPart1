@@ -67,24 +67,30 @@ results
 
 <img src="pics/task3_update_name.png" style="width:500px;">
 
-### 要求四:SQL Aggregate Functions 
-#### command line
+## 要求四:SQL Aggregate Functions 
+### 1. get total number of members
+command line
 ```
--- update follower counts for task4
-UPDATE member SET follower_count = 1 WHERE id=2;
-UPDATE member SET follower_count = 2 WHERE id=3;
-UPDATE member SET follower_count = 3 WHERE id=4;
-UPDATE member SET follower_count = 4 WHERE id=5;
-SELECT * FROM member;
-
--- get total number of members
 SELECT count(*) FROM member;
+```
+results
 
--- get sum of follower count of all members
+<img src="pics/task4_count.png" style="width:500px;">
+
+### 2. get sum of follower count of all members
+command line
+```
 SELECT SUM(follower_count) FROM member;
+```
+results
 
--- get average of follower count of all members
+<img src="pics/task4_sum.png" style="width:500px;">
+
+### 3. get average of follower count of all members
+command line
+```
 SELECT AVG(follower_count) FROM member;
 ```
-#### results
-<img src="task4.png" style="width:500px;">
+results
+
+<img src="pics/task4_avg.png" style="width:500px;">
