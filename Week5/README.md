@@ -1,37 +1,71 @@
-### 要求三:SQL CRUD
-#### command line
+## 要求三:SQL CRUD
+### 1. create members
+command line
 ```
--- create members
 INSERT INTO member(name,username,password) VALUES('testname1','test','test');
-INSERT INTO member(name,username,password) VALUES('testname2','user2','userPWD2');
-INSERT INTO member(name,username,password) VALUES('testname3','user3','userPWD3');
-INSERT INTO member(name,username,password) VALUES('testname4','user4','userPWD4');
-INSERT INTO member(name,username,password) VALUES('testname5','user5','userPWD5');
+INSERT INTO member(name,username,password,follower_count) VALUES('testname2','user2','userPWD2',1);
+INSERT INTO member(name,username,password,follower_count) VALUES('testname3','user3','userPWD3',2);
+INSERT INTO member(name,username,password,follower_count) VALUES('testname4','user4','userPWD4',3);
+INSERT INTO member(name,username,password,follower_count) VALUES('testname5','user5','userPWD5',4);
+```
+results
 
--- read all members
+<img src="pics/task3_add_members.png" style="width:700px;">
+
+### 2. read all members
+command line
+```
 SELECT * FROM member;
+```
+results
 
--- read all members from newest to oldest
+<img src="pics/task3_all_member.png" style="width:700px;">
+
+### 3. read all members from newest to oldest
+command line
+```
 SELECT * FROM member ORDER BY time DESC;
+```
+results
 
--- read 2nd~4th newest members
+<img src="pics/task3_time_order.png" style="width:700px;">
+
+### 4. read 2nd~4th newest members
+command line
+```
 SELECT * FROM member ORDER BY time DESC LIMIT 3 OFFSET 1;
+```
+results
 
--- read 'test' user
+<img src="pics/task3_time_2to4.png" style="width:700px;">
+
+### 5. read 'test' user
+command line
+```
 SELECT * FROM member WHERE username = 'test';
+```
+results
 
--- read 'test' user whose password is 'test'
+<img src="pics/task3_user_test.png" style="width:700px;">
+
+### 6. read 'test' user whose password is 'test'
+command line
+```
 SELECT * FROM member WHERE username = 'test' and password = 'test';
+```
+results
 
--- close safty setting
+<img src="pics/task3_user_pwd_test.png" style="width:700px;">
+
+### 7. update name for 'test' user
+command line
+```
 SET SQL_SAFE_UPDATES = 0;
-
--- update name for 'test' user
 UPDATE member SET name = 'test2' WHERE username='test';
 ```
-#### results
-<img src="task3_pt1.png" style="width:500px;">
-<img src="task3_pt2.png" style="width:500px;">
+results
+
+<img src="pics/task3_update_name.png" style="width:500px;">
 
 ### 要求四:SQL Aggregate Functions 
 #### command line
