@@ -13,7 +13,7 @@ CREATE TABLE member(
 );
 ```
 #### results
-<img src="task2Result.png" style="width:500px;">
+<img src="task2.png" style="width:500px;">
 
 ### 要求三:SQL CRUD
 #### command line
@@ -50,3 +50,24 @@ UPDATE member SET name = 'test2' WHERE username='test';
 <img src="task3_pt1.png" style="width:500px;">
 <img src="task3_pt2.png" style="width:500px;">
 
+### 要求四:SQL Aggregate Functions 
+#### command line
+```
+-- update follower counts for task4
+UPDATE member SET follower_count = 1 WHERE id=2;
+UPDATE member SET follower_count = 2 WHERE id=3;
+UPDATE member SET follower_count = 3 WHERE id=4;
+UPDATE member SET follower_count = 4 WHERE id=5;
+SELECT * FROM member;
+
+-- get total number of members
+SELECT count(*) FROM member;
+
+-- get sum of follower count of all members
+SELECT SUM(follower_count) FROM member;
+
+-- get average of follower count of all members
+SELECT AVG(follower_count) FROM member;
+```
+#### results
+<img src="task4.png" style="width:500px;">
