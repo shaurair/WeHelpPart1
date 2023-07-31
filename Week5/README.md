@@ -113,6 +113,9 @@ INSERT INTO message(member_id, content, like_count) VALUES(1, '讚讚！', 3);
 INSERT INTO message(member_id, content, like_count) VALUES(3, 'XD', 5);
 INSERT INTO message(member_id, content, like_count) VALUES(4, '平安喜樂', 0);
 ```
+results
+
+<img src="pics/task5_create_message.png" style="width:500px;">
 
 ### 2. show all message with member's name
 command line
@@ -120,6 +123,8 @@ command line
 SELECT message.*, member.name FROM message INNER JOIN member ON member.id = message.member_id;
 ```
 results
+
+<img src="pics/task5_all_msg_with_name.png" style="width:500px;">
 
 
 ### 3. show all messages of username 'test' with member's name
@@ -129,6 +134,7 @@ SELECT message.*, member.name FROM message INNER JOIN member ON member.id = mess
 ```
 results
 
+<img src="pics/task5_usr_test_msg_with_name.png" style="width:500px;">
 
 ### 4. show average like counts of all messages of username 'test'
 command line
@@ -137,3 +143,4 @@ SELECT AVG(like_count) FROM message INNER JOIN member ON member.id = message.mem
 ```
 results
 
+<img src="pics/task5_usr_test_avg_like_cnt.png" style="width:500px;">
