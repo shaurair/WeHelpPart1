@@ -4,7 +4,7 @@
 CREATE DATABASE website;
 USE website;
 CREATE TABLE member(
-	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -47,4 +47,6 @@ SET SQL_SAFE_UPDATES = 0;
 UPDATE member SET name = 'test2' WHERE username='test';
 ```
 #### results
+<img src="task3_pt1.png" style="width:500px;">
+<img src="task3_pt2.png" style="width:500px;">
 
