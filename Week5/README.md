@@ -94,3 +94,46 @@ SELECT AVG(follower_count) FROM member;
 results
 
 <img src="pics/task4_avg.png" style="width:500px;">
+
+## 要求五:SQL JOIN
+### 1. create message and add some messages
+command line
+```
+CREATE TABLE message(
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    member_id BIGINT NOT NULL,
+    FOREIGN KEY(member_id) REFERENCES member(id),
+    content VARCHAR(255) NOT NULL,
+    like_count INT UNSIGNED NOT NULL DEFAULT 0,
+    time DATETIME DEFAULT NOW()
+);
+
+INSERT INTO message(member_id, content, like_count) VALUES(1, 'GOOD :)', 2);
+INSERT INTO message(member_id, content, like_count) VALUES(1, '讚讚！', 3);
+INSERT INTO message(member_id, content, like_count) VALUES(3, 'XD', 5);
+INSERT INTO message(member_id, content, like_count) VALUES(4, '平安喜樂', 0);
+```
+
+### 2. show all message with member's name
+command line
+```
+SELECT message.*, member.name FROM message INNER JOIN member ON member.id = message.member_id;
+```
+results
+
+
+### 3. show all messages of username 'test' with member's name
+command line
+```
+SELECT message.*, member.name FROM message INNER JOIN member ON member.id = message.member_id WHERE username = 'test';
+```
+results
+
+
+### 4. show average like counts of all messages of username 'test'
+command line
+```
+SELECT AVG(like_count) FROM message INNER JOIN member ON member.id = message.member_id WHERE username = 'test';
+```
+results
+
