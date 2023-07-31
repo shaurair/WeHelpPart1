@@ -1,5 +1,5 @@
 # task2
-## command line
+### command line
 ```
 CREATE DATABASE website;
 USE website;
@@ -12,4 +12,5 @@ CREATE TABLE member(
     time DATETIME DEFAULT NOW()
 );
 ```
-## results
+### results
+<img src="task2Result.png" style="width:500px;">
