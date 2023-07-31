@@ -47,4 +47,6 @@ SET SQL_SAFE_UPDATES = 0;
 UPDATE member SET name = 'test2' WHERE username='test';
 ```
 #### results
+<img src="task3_pt1.png" style="width:500px;">
+<img src="task3_pt2.png" style="width:500px;">
 
