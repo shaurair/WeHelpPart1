@@ -135,7 +135,7 @@ SELECT message.*, member.name, member.username FROM message INNER JOIN member ON
 ```
 results
 
-<img src="pics/task5_usr_test_msg_with_name.png" style="width:500px;">
+<img src="pics/task5_usr_test_msg_with_name.png" style="width:800px;">
 
 ### 4. show average like counts of all messages of username 'test'
 command line
