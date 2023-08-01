@@ -100,7 +100,7 @@ results
 command line
 ```
 CREATE TABLE message(
-	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
     member_id BIGINT NOT NULL,
     FOREIGN KEY(member_id) REFERENCES member(id),
     content VARCHAR(255) NOT NULL,
