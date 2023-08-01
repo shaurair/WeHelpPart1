@@ -105,7 +105,7 @@ CREATE TABLE message(
     FOREIGN KEY(member_id) REFERENCES member(id),
     content VARCHAR(255) NOT NULL,
     like_count INT UNSIGNED NOT NULL DEFAULT 0,
-    time DATETIME DEFAULT NOW()
+    time DATETIME NOT NULL DEFAULT NOW()
 );
 
 INSERT INTO message(member_id, content, like_count) VALUES(1, 'GOOD :)', 2);
