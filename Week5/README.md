@@ -115,6 +115,7 @@ INSERT INTO message(member_id, content, like_count) VALUES(4, '平安喜樂', 0)
 ```
 results
 
+<img src="pics/task5_create_message_table.png" style="width:500px;">
 <img src="pics/task5_create_message.png" style="width:500px;">
 
 ### 2. show all message with member's name
