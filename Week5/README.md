@@ -131,7 +131,7 @@ results
 ### 3. show all messages of username 'test' with member's name
 command line
 ```
-SELECT message.*, member.name FROM message INNER JOIN member ON member.id = message.member_id WHERE username = 'test';
+SELECT message.*, member.name, member.username FROM message INNER JOIN member ON member.id = message.member_id WHERE username = 'test';
 ```
 results
 
