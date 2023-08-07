@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale = 1.0" charset="utf-8"/>
+		<title>Member Page</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='general.css') }}">
+	</head>
+	<body>
+		<div class = "HeadTitle">歡迎光臨，這是會員頁</div>
+		<div class = "Msg">{{name}}，歡迎登入系統</div>
+		<div class = "Link"><a href = "/signout">登出系統</a></div>
+		<hr/>
+		<h3 class = "HeadInfo">快來留言吧</h3>
+		<form class="Info" id = "Msg" action = "/createMessage" method = "POST">
+			<span class = "Item">內容</span><input type = "text" name = "MsgContent" id= "MsgContent"/>
+			<button type = "submit" onclick = "CheckMsgFilled(event);">送出</button>
+		</form>
+		<hr/>
+		<div class="Info" id = "MsgData" data="{{MsgData}}"></div>
+		<script>
+				let MsgDataElement = document.getElementById("MsgData");
+				let JsonData = JSON.parse(MsgDataElement.getAttribute("data").replace(/'/g,"\""));
+				
+				function CheckMsgFilled(event) {
+					// Check register info
+					if(document.getElementById("MsgContent").value == "") {
+						event.preventDefault();
+						alert("請確認已輸入留言內容");
+					}
+				}
+
+				function UpdateMsgContent(MsgDataIdx) {
+					NewName = document.createElement('span');
+					NewName.style = "font-weight: bold";
+					NewName.textContent = JsonData[MsgDataIdx].name;
+
+					NewMsg = document.createElement('span');
+					NewMsg.textContent = ":" + JsonData[MsgDataIdx].content;
+
+					MsgDataElement.appendChild(NewName);
+					MsgDataElement.appendChild(NewMsg);
+					MsgDataElement.appendChild(document.createElement('br'));
+				}
+
+				// Load msg in message table
+				for(MsgDataIdx = 0; MsgDataIdx < JsonData.length; MsgDataIdx ++) {
+					UpdateMsgContent(MsgDataIdx);
+				}
+		</script>
+	</body>
+</html>

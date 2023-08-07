@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale = 1.0" charset="utf-8"/>
+		<title>Home Page</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='general.css') }}">
+	</head>
+	<body>
+		<div class = "HeadTitle">歡迎光臨，請註冊登入系統</div>
+		<h3 class = "HeadInfo">註冊帳號</h3>
+		<form class="Info" id = "Register" action = "/signup" method = "POST">
+			<span class = "Item">姓名</span><input type = "text" name = "Name" id = "RegName"/><br/>
+			<span class = "Item">帳號</span><input type = "text" name = "Username" id = "RegUsername"/><br/>
+			<span class = "Item">密碼</span><input type = "password" name = "Password" id = "RegPassword"/><br/>
+			<button type = "submit" id = "RegBtn" onclick = "CheckRegInfoFilled(event);">註冊</button>
+		</form>
+		<hr/>
+		<h3 class = "HeadInfo">登入系統</h3>
+		<form class="Info" id = "LogForm" action = "/signin" method = "POST">
+			<span class = "Item">帳號</span><input type = "text" name = "Username" id = "LogUsername"/><br/>
+			<span class = "Item">密碼</span><input type = "password" name = "Password" id = "LogPassword"/><br/>
+			<button type = "submit" id = "LogBtn" onclick = "CheckLogInfoFilled(event,this);">登入</button>
+		</form>
+		<script>
+			// Check register info
+			function CheckRegInfoFilled(event) {
+				if(document.getElementById("RegName").value == "" || 
+				   document.getElementById("RegUsername").value == "" ||
+				   document.getElementById("RegPassword").value == "" ) {
+					event.preventDefault();
+					alert("請確認所有註冊資訊都已輸入");
+				}
+			}
+			// Check log info
+			function CheckLogInfoFilled(event) {
+				if(document.getElementById("LogUsername").value == "" ||
+				   document.getElementById("LogPassword").value == "" ) {
+					event.preventDefault();
+					alert("請確認所有登入資訊都已輸入");
+				}
+			}
+		</script>
+	</body>
+</html>
