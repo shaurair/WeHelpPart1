@@ -8,18 +8,18 @@
 	<body>
 		<div class = "HeadTitle">歡迎光臨，請註冊登入系統</div>
 		<h3 class = "HeadInfo">註冊帳號</h3>
-		<form class="Info" id = "Register" action = "/signup" method = "POST">
+		<form class="Info" action = "/signup" method = "POST">
 			<span class = "Item">姓名</span><input type = "text" name = "Name" id = "RegName"/><br/>
 			<span class = "Item">帳號</span><input type = "text" name = "Username" id = "RegUsername"/><br/>
 			<span class = "Item">密碼</span><input type = "password" name = "Password" id = "RegPassword"/><br/>
-			<button type = "submit" id = "RegBtn" onclick = "CheckRegInfoFilled(event);">註冊</button>
+			<button type = "submit" onclick = "CheckRegInfoFilled(event);">註冊</button>
 		</form>
 		<hr/>
 		<h3 class = "HeadInfo">登入系統</h3>
-		<form class="Info" id = "LogForm" action = "/signin" method = "POST">
+		<form class="Info" action = "/signin" method = "POST">
 			<span class = "Item">帳號</span><input type = "text" name = "Username" id = "LogUsername"/><br/>
 			<span class = "Item">密碼</span><input type = "password" name = "Password" id = "LogPassword"/><br/>
-			<button type = "submit" id = "LogBtn" onclick = "CheckLogInfoFilled(event,this);">登入</button>
+			<button type = "submit" onclick = "CheckLogInfoFilled(event,this);">登入</button>
 		</form>
 		<script>
 			// Check register info

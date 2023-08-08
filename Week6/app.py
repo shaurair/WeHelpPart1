@@ -27,6 +27,7 @@ def signup():
 	Name = request.form["Name"]
 	Username = request.form["Username"]
 	Password = request.form["Password"]
+	# "COLLATE utf8mb4_bin" for comparing letter case
 	cursor.execute("SELECT * FROM member WHERE username = %s COLLATE utf8mb4_bin",(Username, ))
 	data = cursor.fetchone()
 
@@ -45,7 +46,7 @@ def signin():
 	cursor.execute("SELECT * FROM member WHERE username = %s and password = %s COLLATE utf8mb4_bin",(Username, Password))
 	data = cursor.fetchone()
 
-	# Check if both username and password matched
+	# Check if username or password not matched
 	if data == None:
 		return redirect("/error?message=帳號或密碼錯誤")
 
@@ -66,9 +67,9 @@ def signout():
 def member():
 	# Check user status
 	if "name" in session:
-		cursor.execute("SELECT message.member_id,member.name,message.content, message.id FROM message INNER JOIN member ON member.id = message.member_id ORDER BY message.time DESC")
+		cursor.execute("SELECT message.member_id, member.name, message.content, message.id FROM message INNER JOIN member ON member.id = message.member_id ORDER BY message.time DESC")
 		data = cursor.fetchall()
-		return render_template("member.html", name = session["name"], SessionId = session["id"], MsgData = data)
+		return render_template("member.html", Name = session["name"], SessionId = session["id"], MsgData = data)
 	
 	return redirect("/")
 

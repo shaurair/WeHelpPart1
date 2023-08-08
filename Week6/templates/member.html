@@ -7,20 +7,19 @@
 	</head>
 	<body>
 		<div class = "HeadTitle">歡迎光臨，這是會員頁</div>
-		<div class = "Msg">{{name}}，歡迎登入系統</div>
+		<div class = "Msg">{{Name}}，歡迎登入系統</div>
 		<div class = "Link"><a href = "/signout">登出系統</a></div>
 		<hr/>
 		<h3 class = "HeadInfo">快來留言吧</h3>
-		<form class="Info" id = "Msg" action = "/createMessage" method = "POST">
+		<form class="Info" action = "/createMessage" method = "POST">
 			<span class = "Item">內容</span><input type = "text" name = "MsgContent" id= "MsgContent"/>
 			<button type = "submit" onclick = "CheckMsgFilled(event);">送出</button>
 		</form>
 		<hr/>
 		<div class="Info" id = "MsgData" ></div>
 		<script>
-				let message = "{{MsgData}}";
 				let SessionId = "{{SessionId}}";
-				let MsgJData = JSON.parse(message.replace(/&#39;/g, "\""));
+				let MsgJData = JSON.parse("{{MsgData}}".replace(/&#39;/g, "\""));
 				let MsgDataElement = document.getElementById("MsgData");
 				
 				function CheckMsgFilled(event) {
@@ -32,11 +31,11 @@
 				}
 
 				function UpdateMsgContent(MsgDataIdx) {
-					NewName = document.createElement('span');
+					let NewName = document.createElement('span');
 					NewName.style = "font-weight: bold";
 					NewName.textContent = MsgJData[MsgDataIdx].name;
 
-					NewMsg = document.createElement('span');
+					let NewMsg = document.createElement('span');
 					NewMsg.textContent = ":" + MsgJData[MsgDataIdx].content + " ";
 
 					MsgDataElement.appendChild(NewName);
@@ -44,7 +43,7 @@
 
 					// add delete button for member
 					if( MsgJData[MsgDataIdx].member_id == "{{SessionId}}") {
-						NewBtn = document.createElement("button");
+						let NewBtn = document.createElement("button");
 						NewBtn.textContent = "X";
 						NewBtn.onclick = function() { 
 							let confirmed = confirm("請確認是否刪除留言？");
@@ -73,7 +72,7 @@
 				}
 
 				// Load msg in message table
-				for(MsgDataIdx = 0; MsgDataIdx < MsgJData.length; MsgDataIdx ++) {
+				for(let MsgDataIdx = 0; MsgDataIdx < MsgJData.length; MsgDataIdx ++) {
 					UpdateMsgContent(MsgDataIdx);
 				}
 		</script>
