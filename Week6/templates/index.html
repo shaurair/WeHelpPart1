@@ -26,7 +26,7 @@
 			function CheckRegInfoFilled(event) {
 				if(document.getElementById("RegName").value == "" || 
 				   document.getElementById("RegUsername").value == "" ||
-				   document.getElementById("RegPassword").value == "" ) {
+				   document.getElementById("RegPassword").value == "") {
 					event.preventDefault();
 					alert("請確認所有註冊資訊都已輸入");
 				}
@@ -34,7 +34,7 @@
 			// Check log info
 			function CheckLogInfoFilled(event) {
 				if(document.getElementById("LogUsername").value == "" ||
-				   document.getElementById("LogPassword").value == "" ) {
+				   document.getElementById("LogPassword").value == "") {
 					event.preventDefault();
 					alert("請確認所有登入資訊都已輸入");
 				}
