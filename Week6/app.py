@@ -27,7 +27,7 @@ def signup():
 	Name = request.form["Name"]
 	Username = request.form["Username"]
 	Password = request.form["Password"]
-	cursor.execute("SELECT * FROM member WHERE username = %s",(Username, ))
+	cursor.execute("SELECT * FROM member WHERE username = %s COLLATE utf8mb4_bin",(Username, ))
 	data = cursor.fetchone()
 
 	# Check if uesrname dosen't exist
@@ -42,7 +42,7 @@ def signup():
 def signin():
 	Username = request.form["Username"]
 	Password = request.form["Password"]
-	cursor.execute("SELECT * FROM member WHERE username = %s and password = %s",(Username, Password))
+	cursor.execute("SELECT * FROM member WHERE username = %s and password = %s COLLATE utf8mb4_bin",(Username, Password))
 	data = cursor.fetchone()
 
 	# Check if both username and password matched
@@ -66,9 +66,9 @@ def signout():
 def member():
 	# Check user status
 	if "name" in session:
-		cursor.execute("SELECT member.name,message.content FROM message INNER JOIN member ON member.id = message.member_id ORDER BY message.time DESC")
+		cursor.execute("SELECT message.member_id,member.name,message.content, message.id FROM message INNER JOIN member ON member.id = message.member_id ORDER BY message.time DESC")
 		data = cursor.fetchall()
-		return render_template("member.html", name = session["name"], MsgData = data)
+		return render_template("member.html", name = session["name"], SessionId = session["id"], MsgData = data)
 	
 	return redirect("/")
 
@@ -81,6 +81,13 @@ def error():
 def createMessage():
 	MsgContent = request.form["MsgContent"]
 	cursor.execute("INSERT INTO message(member_id, content) VALUES(%s,%s)",(session["id"], MsgContent))
+	con.commit()
+	return redirect("/member")
+
+@app.route("/deleteMessage", methods = ["POST"])
+def deleteMessage():
+	DelMsgId = request.form["DelMsgId"]
+	cursor.execute("DELETE FROM message WHERE id = %s",(DelMsgId,))
 	con.commit()
 	return redirect("/member")
 

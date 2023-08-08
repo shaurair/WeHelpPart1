@@ -16,10 +16,12 @@
 			<button type = "submit" onclick = "CheckMsgFilled(event);">送出</button>
 		</form>
 		<hr/>
-		<div class="Info" id = "MsgData" data="{{MsgData}}"></div>
+		<div class="Info" id = "MsgData" ></div>
 		<script>
+				let message = "{{MsgData}}";
+				let SessionId = "{{SessionId}}";
+				let MsgJData = JSON.parse(message.replace(/&#39;/g, "\""));
 				let MsgDataElement = document.getElementById("MsgData");
-				let JsonData = JSON.parse(MsgDataElement.getAttribute("data").replace(/'/g,"\""));
 				
 				function CheckMsgFilled(event) {
 					// Check register info
@@ -32,18 +34,46 @@
 				function UpdateMsgContent(MsgDataIdx) {
 					NewName = document.createElement('span');
 					NewName.style = "font-weight: bold";
-					NewName.textContent = JsonData[MsgDataIdx].name;
+					NewName.textContent = MsgJData[MsgDataIdx].name;
 
 					NewMsg = document.createElement('span');
-					NewMsg.textContent = ":" + JsonData[MsgDataIdx].content;
+					NewMsg.textContent = ":" + MsgJData[MsgDataIdx].content + " ";
 
 					MsgDataElement.appendChild(NewName);
 					MsgDataElement.appendChild(NewMsg);
+
+					// add delete button for member
+					if( MsgJData[MsgDataIdx].member_id == "{{SessionId}}") {
+						NewBtn = document.createElement("button");
+						NewBtn.textContent = "X";
+						NewBtn.onclick = function() { 
+							let confirmed = confirm("請確認是否刪除留言？");
+							if( confirmed ) {
+								DeleteMsg(MsgJData[MsgDataIdx].id);
+							}
+						};
+						MsgDataElement.appendChild(NewBtn);
+					}
 					MsgDataElement.appendChild(document.createElement('br'));
 				}
 
+				function DeleteMsg(MsgId) {
+					let NewForm = document.createElement("form");
+					NewForm.method = "POST";
+					NewForm.action = "/deleteMessage";
+
+					let DelMsgInput = document.createElement("input");
+					DelMsgInput.type = "hidden";
+					DelMsgInput.name = "DelMsgId";
+					DelMsgInput.value = MsgId;
+				
+					NewForm.appendChild(DelMsgInput);
+					document.body.appendChild(NewForm);
+					NewForm.submit();
+				}
+
 				// Load msg in message table
-				for(MsgDataIdx = 0; MsgDataIdx < JsonData.length; MsgDataIdx ++) {
+				for(MsgDataIdx = 0; MsgDataIdx < MsgJData.length; MsgDataIdx ++) {
 					UpdateMsgContent(MsgDataIdx);
 				}
 		</script>
