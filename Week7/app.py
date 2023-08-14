@@ -1,11 +1,12 @@
+import json
 import mysql.connector
-# connect to database
-con = mysql.connector.connect(
-	user = "root",
-	password = "root123",
-	host = "localhost",
-	database = "website"
-)
+# set infos to connect to database
+MysqlConnectInfo = {
+	"user" : "root",
+	"password" : "root123",
+	"host" : "localhost",
+	"database" : "website"
+}
 
 from flask import Flask
 from flask import request
@@ -25,6 +26,8 @@ def signup():
 	Name = request.form["Name"]
 	Username = request.form["Username"]
 	Password = request.form["Password"]
+
+	con = mysql.connector.connect(**MysqlConnectInfo)
 	cursor = con.cursor()
 	# "COLLATE utf8mb4_bin" for comparing letter case
 	cursor.execute("SELECT * FROM member WHERE username = %s COLLATE utf8mb4_bin",(Username, ))
@@ -34,17 +37,22 @@ def signup():
 	if data == None:
 		cursor.execute("INSERT INTO member(name, username, password) VALUES(%s, %s, %s)",(Name, Username, Password))
 		con.commit()
+		con.close()
 		return redirect("/")
-		
+
+	con.close()	
 	return redirect("/error?message=帳號已被註冊")
 	
 @app.route("/signin", methods = ["POST"])
 def signin():
 	Username = request.form["Username"]
 	Password = request.form["Password"]
+
+	con = mysql.connector.connect(**MysqlConnectInfo)
 	cursor = con.cursor(dictionary = True)
 	cursor.execute("SELECT * FROM member WHERE username = %s and password = %s COLLATE utf8mb4_bin",(Username, Password))
 	data = cursor.fetchone()
+	con.close()
 
 	# Check if username or password not matched
 	if data == None:
@@ -67,9 +75,11 @@ def signout():
 def member():
 	# Check user status
 	if "name" in session:
+		con = mysql.connector.connect(**MysqlConnectInfo)
 		cursor = con.cursor(dictionary = True)
 		cursor.execute("SELECT message.member_id, member.name, message.content, message.id FROM message INNER JOIN member ON member.id = message.member_id ORDER BY message.time DESC")
 		data = cursor.fetchall()
+		con.close()
 		return render_template("member.html", Name = session["name"], SessionId = session["id"], MsgData = data)
 	
 	return redirect("/")
@@ -82,25 +92,40 @@ def error():
 @app.route("/createMessage", methods = ["POST"])
 def createMessage():
 	MsgContent = request.form["MsgContent"]
+
+	con = mysql.connector.connect(**MysqlConnectInfo)
 	cursor = con.cursor()
 	cursor.execute("INSERT INTO message(member_id, content) VALUES(%s,%s)",(session["id"], MsgContent))
 	con.commit()
+	con.close()
+
 	return redirect("/member")
 
 @app.route("/deleteMessage", methods = ["POST"])
 def deleteMessage():
 	DelMsgId = request.form["DelMsgId"]
+
+	con = mysql.connector.connect(**MysqlConnectInfo)
 	cursor = con.cursor()
 	cursor.execute("DELETE FROM message WHERE id = %s",(DelMsgId,))
 	con.commit()
+	con.close()
 	return redirect("/member")
 
 @app.route("/api/member")
 def findName():
 	Username = request.args.get("username","")
-	return Username
+
+	con = mysql.connector.connect(**MysqlConnectInfo)
+	cursor = con.cursor(dictionary = True)
+	cursor.execute("SELECT id, name, username FROM member WHERE username = %s",(Username,))
+	data = cursor.fetchone()
+	con.close()
+	result = {}
+	if data == None:
+		result["data"] = None
+	else:
+		result["data"] = data
+	return json.dumps(result,ensure_ascii = False)
 
 app.run(port = 3000)
-
-# database disconnection
-con.close()

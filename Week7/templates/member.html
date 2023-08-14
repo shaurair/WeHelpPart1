@@ -10,9 +10,16 @@
 		<div class = "Msg">{{Name}}，歡迎登入系統</div>
 		<div class = "Link"><a href = "/signout">登出系統</a></div>
 		<hr/>
+		<h3 class = "HeadInfo">查詢會員姓名</h3>
+		<div class = "Info">
+			<input type = "text" name = "Username" id = "Username"/>
+			<button onclick="FindMemberName();">查詢</button>
+			<div id = "Name"></div>
+		</div>
+		<hr/>
 		<h3 class = "HeadInfo">快來留言吧</h3>
-		<form class="Info" action = "/createMessage" method = "POST">
-			<span class = "Item">內容</span><input type = "text" name = "MsgContent" id= "MsgContent"/>
+		<form class = "Info" action = "/createMessage" method = "POST">
+			<span class = "Item">內容</span><input type = "text" name = "MsgContent" id = "MsgContent"/>
 			<button type = "submit" onclick = "CheckMsgFilled(event);">送出</button>
 		</form>
 		<hr/>
@@ -69,6 +76,21 @@
 				NewForm.appendChild(DelMsgInput);
 				document.body.appendChild(NewForm);
 				NewForm.submit();
+			}
+
+			function FindMemberName() {
+				let Username = document.getElementById("Username").value;
+				fetch(`/api/member?username=${Username}`).then(function(response){
+					return response.json();
+				}).then(function(result) {
+					data = result["data"];
+					if(data != null) {
+						document.getElementById("Name").textContent = data["name"] + "(" + data["username"] + ")";
+					}
+					else {
+						document.getElementById("Name").textContent = "";
+					}
+				});
 			}
 
 			// Load msg in message table
