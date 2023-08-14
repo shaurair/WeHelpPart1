@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale = 1.0" charset="utf-8"/>
+		<title>Member Page</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='general.css') }}">
+	</head>
+	<body>
+		<div class = "HeadTitle">歡迎光臨，這是會員頁</div>
+		<div class = "Msg">{{Name}}，歡迎登入系統</div>
+		<div class = "Link"><a href = "/signout">登出系統</a></div>
+		<hr/>
+		<h3 class = "HeadInfo">快來留言吧</h3>
+		<form class="Info" action = "/createMessage" method = "POST">
+			<span class = "Item">內容</span><input type = "text" name = "MsgContent" id= "MsgContent"/>
+			<button type = "submit" onclick = "CheckMsgFilled(event);">送出</button>
+		</form>
+		<hr/>
+		<div class="Info" id = "MsgData" ></div>
+		<script>
+			let SessionId = "{{SessionId}}";
+			let MsgJData = JSON.parse("{{MsgData}}".replace(/&#39;/g, "\""));
+			let MsgDataElement = document.getElementById("MsgData");
+				
+			function CheckMsgFilled(event) {
+				// Check message content
+				if(document.getElementById("MsgContent").value == "") {
+					event.preventDefault();
+					alert("請確認已輸入留言內容");
+				}
+			}
+
+			function UpdateMsgContent(MsgDataIdx) {
+				let NewName = document.createElement('span');
+				NewName.style = "font-weight: bold";
+				NewName.textContent = MsgJData[MsgDataIdx].name;
+
+				let NewMsg = document.createElement('span');
+				NewMsg.textContent = ":" + MsgJData[MsgDataIdx].content + " ";
+
+				MsgDataElement.appendChild(NewName);
+				MsgDataElement.appendChild(NewMsg);
+
+				// add delete button for member
+				if( MsgJData[MsgDataIdx].member_id == "{{SessionId}}") {
+					let NewBtn = document.createElement("button");
+					NewBtn.textContent = "X";
+					NewBtn.onclick = function() { 
+						let confirmed = confirm("請確認是否刪除留言？");
+						if(confirmed) {
+							DeleteMsg(MsgJData[MsgDataIdx].id);
+						}
+					};
+					MsgDataElement.appendChild(NewBtn);
+				}
+				MsgDataElement.appendChild(document.createElement('br'));
+			}
+
+			function DeleteMsg(MsgId) {
+				let NewForm = document.createElement("form");
+				NewForm.method = "POST";
+				NewForm.action = "/deleteMessage";
+
+				let DelMsgInput = document.createElement("input");
+				DelMsgInput.type = "hidden";
+				DelMsgInput.name = "DelMsgId";
+				DelMsgInput.value = MsgId;
+			
+				NewForm.appendChild(DelMsgInput);
+				document.body.appendChild(NewForm);
+				NewForm.submit();
+			}
+
+			// Load msg in message table
+			for(let MsgDataIdx = 0; MsgDataIdx < MsgJData.length; MsgDataIdx++) {
+				UpdateMsgContent(MsgDataIdx);
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,35 @@
+html,body {
+	margin: 0;
+}
+.HeadTitle {
+	display: flex;
+	height: 100px;
+	font-size: 30px;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	background-color: rgb(23, 36, 99);
+	color: white;
+}
+.HeadInfo {
+	text-align: center;
+}
+.Info {
+	text-align: center;
+}
+.Item {
+	display: inline-block;
+	width: 50px;
+	height: 35px;
+}
+.Msg {
+	display: flex;
+	text-align: center;
+	font-size: 20px;
+	height: 100px;
+	justify-content: center;
+	align-items: center;
+}
+.Link{
+	text-align: center;
+}
