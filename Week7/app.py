@@ -25,7 +25,7 @@ def signup():
 	Name = request.form["Name"]
 	Username = request.form["Username"]
 	Password = request.form["Password"]
-	cursor = con.cursor(dictionary = True)
+	cursor = con.cursor()
 	# "COLLATE utf8mb4_bin" for comparing letter case
 	cursor.execute("SELECT * FROM member WHERE username = %s COLLATE utf8mb4_bin",(Username, ))
 	data = cursor.fetchone()
@@ -82,7 +82,7 @@ def error():
 @app.route("/createMessage", methods = ["POST"])
 def createMessage():
 	MsgContent = request.form["MsgContent"]
-	cursor = con.cursor(dictionary = True)
+	cursor = con.cursor()
 	cursor.execute("INSERT INTO message(member_id, content) VALUES(%s,%s)",(session["id"], MsgContent))
 	con.commit()
 	return redirect("/member")
@@ -90,10 +90,15 @@ def createMessage():
 @app.route("/deleteMessage", methods = ["POST"])
 def deleteMessage():
 	DelMsgId = request.form["DelMsgId"]
-	cursor = con.cursor(dictionary = True)
+	cursor = con.cursor()
 	cursor.execute("DELETE FROM message WHERE id = %s",(DelMsgId,))
 	con.commit()
 	return redirect("/member")
+
+@app.route("/api/member")
+def findName():
+	Username = request.args.get("username","")
+	return Username
 
 app.run(port = 3000)
 
