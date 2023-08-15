@@ -112,20 +112,51 @@ def deleteMessage():
 	con.close()
 	return redirect("/member")
 
-@app.route("/api/member")
-def findName():
-	Username = request.args.get("username","")
+@app.route("/api/member", methods = ["GET", "PATCH"])
+def api_member():
+	if request.method == "GET":
+		return FindName()
+	elif request.method == "PATCH":
+		return ChangeName()
 
-	con = mysql.connector.connect(**MysqlConnectInfo)
-	cursor = con.cursor(dictionary = True)
-	cursor.execute("SELECT id, name, username FROM member WHERE username = %s",(Username,))
-	data = cursor.fetchone()
-	con.close()
+def FindName():
+	Username = request.args.get("username","")
 	result = {}
-	if data == None:
+	if "name" not in session:
 		result["data"] = None
 	else:
-		result["data"] = data
+		try:
+			con = mysql.connector.connect(**MysqlConnectInfo)
+			cursor = con.cursor(dictionary = True)
+			cursor.execute("SELECT id, name, username FROM member WHERE username = %s",(Username,))
+			data = cursor.fetchone()
+			con.close()
+	
+			if data == None:
+				result["data"] = None
+			else:
+				result["data"] = data
+		except mysql.connector.Error:
+			result["data"] = None
 	return json.dumps(result,ensure_ascii = False)
+
+def ChangeName():
+	NewName = request.get_json()["name"]
+	result = {}
+	if "name" not in session:
+		result["error"] = True
+	else:
+		try:
+			con = mysql.connector.connect(**MysqlConnectInfo)
+			cursor = con.cursor()
+			cursor.execute("UPDATE member SET name = %s WHERE id = %s",(NewName, session["id"]))
+			con.commit()
+			con.close()
+			result["ok"] = True
+			session["name"] = NewName
+		except mysql.connector.Error:
+			result["error"] = True
+
+	return json.dumps(result)
 
 app.run(port = 3000)

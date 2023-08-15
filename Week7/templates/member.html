@@ -7,14 +7,20 @@
 	</head>
 	<body>
 		<div class = "HeadTitle">歡迎光臨，這是會員頁</div>
-		<div class = "Msg">{{Name}}，歡迎登入系統</div>
+		<div class = "Msg"><span id = MemberName>{{Name}}</span>，歡迎登入系統</div>
 		<div class = "Link"><a href = "/signout">登出系統</a></div>
 		<hr/>
 		<h3 class = "HeadInfo">查詢會員姓名</h3>
 		<div class = "Info">
-			<input type = "text" name = "Username" id = "Username"/>
+			<input type = "text" id = "Username"/>
 			<button onclick="FindMemberName();">查詢</button>
 			<div id = "Name"></div>
+		</div>
+		<h3 class = "HeadInfo">更新我的姓名</h3>
+		<div class = "Info">
+			<input type = "text" id = "NewName" placeholder = "輸入新的姓名">
+			<button onclick="ChangeMyName();">更新</button>
+			<div id = "IsChangeOK"></div>
 		</div>
 		<hr/>
 		<h3 class = "HeadInfo">快來留言吧</h3>
@@ -29,18 +35,19 @@
 			let MsgJData = JSON.parse("{{MsgData}}".replace(/&#39;/g, "\""));
 			let MsgDataElement = document.getElementById("MsgData");
 				
-			function CheckMsgFilled(event) {
+			function CheckMsgFilled(event){
 				// Check message content
-				if(document.getElementById("MsgContent").value == "") {
+				if(document.getElementById("MsgContent").value == ""){
 					event.preventDefault();
 					alert("請確認已輸入留言內容");
 				}
 			}
 
-			function UpdateMsgContent(MsgDataIdx) {
+			function UpdateMsgContent(MsgDataIdx){
 				let NewName = document.createElement('span');
 				NewName.style = "font-weight: bold";
 				NewName.textContent = MsgJData[MsgDataIdx].name;
+				NewName.className = "id" + MsgJData[MsgDataIdx].member_id;
 
 				let NewMsg = document.createElement('span');
 				NewMsg.textContent = ":" + MsgJData[MsgDataIdx].content + " ";
@@ -49,12 +56,12 @@
 				MsgDataElement.appendChild(NewMsg);
 
 				// add delete button for member
-				if( MsgJData[MsgDataIdx].member_id == "{{SessionId}}") {
+				if(MsgJData[MsgDataIdx].member_id == "{{SessionId}}"){
 					let NewBtn = document.createElement("button");
 					NewBtn.textContent = "X";
-					NewBtn.onclick = function() { 
+					NewBtn.onclick = function(){ 
 						let confirmed = confirm("請確認是否刪除留言？");
-						if(confirmed) {
+						if(confirmed){
 							DeleteMsg(MsgJData[MsgDataIdx].id);
 						}
 					};
@@ -63,7 +70,7 @@
 				MsgDataElement.appendChild(document.createElement('br'));
 			}
 
-			function DeleteMsg(MsgId) {
+			function DeleteMsg(MsgId){
 				let NewForm = document.createElement("form");
 				NewForm.method = "POST";
 				NewForm.action = "/deleteMessage";
@@ -78,23 +85,60 @@
 				NewForm.submit();
 			}
 
-			function FindMemberName() {
+			function FindMemberName(){
 				let Username = document.getElementById("Username").value;
 				fetch(`/api/member?username=${Username}`).then(function(response){
 					return response.json();
-				}).then(function(result) {
+				}).then(function(result){
 					data = result["data"];
-					if(data != null) {
+					if(data != null){
 						document.getElementById("Name").textContent = data["name"] + "(" + data["username"] + ")";
 					}
 					else {
 						document.getElementById("Name").textContent = "";
+						alert("發生錯誤！請重新整理或確認登入狀態、輸入內容是否正確");
 					}
 				});
 			}
 
+			function ChangeMyName(){
+				let NewName = document.getElementById("NewName").value;
+
+				// Check new name content
+				if(NewName == ""){
+					event.preventDefault();
+					alert("請確認已輸入新名字");
+					return;
+				}
+
+				fetch("/api/member", {
+					method:"PATCH",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						"name": NewName
+					})
+				}).then(function(response){
+					return response.json();
+				}).then(function(result){
+					if(result["ok"]){
+						document.getElementById("IsChangeOK").textContent = "更新成功";
+						document.getElementById("MemberName").textContent = NewName;
+						let ToBeChangeList = document.querySelectorAll(".id{{SessionId}}");
+						ToBeChangeList.forEach(element => {
+							element.textContent = NewName;
+						});
+					}
+					else if(result["error"]){
+						document.getElementById("IsChangeOK").textContent = "更新失敗";
+					}
+					document.getElementById("NewName").value = "";
+				});
+			}
+
 			// Load msg in message table
-			for(let MsgDataIdx = 0; MsgDataIdx < MsgJData.length; MsgDataIdx++) {
+			for(let MsgDataIdx = 0; MsgDataIdx < MsgJData.length; MsgDataIdx++){
 				UpdateMsgContent(MsgDataIdx);
 			}
 		</script>
